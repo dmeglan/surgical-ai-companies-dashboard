@@ -123,6 +123,7 @@ function detail(d){
  const visit=d.url&&d.url!=="—"?`<a class="visit" href="${esc(d.url)}" target="_blank" rel="noopener">Visit site ↗</a>`:"";
  return `<div class="detin">
   <div class="kv full"><div class="k">Product / platform</div><div class="v">${esc(d.product)||"—"}</div></div>
+  ${(d.url&&d.url!=="—")?`<div class="kv full"><div class="k">Website</div><div class="v"><a href="${esc(d.url)}" target="_blank" rel="noopener">${esc(d.url)}</a></div></div>`:""}
   ${kv("Type",d.type)}${kv("Mode",d.mode)}${kv("AI role",d.airole)}
   ${kv("Funding stage",d.stage)}${kv("Total raised",d.raised)}${kv("Last raise",d.lastraise)}
   ${kv("Lead investors",d.investors)}${kv("Valuation",d.valuation)}${kv("First seen / updated",(d.first||"—")+" / "+(d.last||"—"))}
