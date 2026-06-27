@@ -29,7 +29,7 @@ h1{margin:0;font-size:23px;letter-spacing:.2px}
 .controls .reset{cursor:pointer;background:var(--navy);color:#fff;border:none;padding:8px 12px;border-radius:8px;font-weight:600}
 .count{font-size:12px;color:var(--mut);margin-left:auto}
 table{border-collapse:collapse;width:100%;table-layout:fixed}
-col.c-x{width:30px}col.c-co{width:30%}col.c-fo{width:16%}col.c-ai{width:13%}col.c-st{width:16%}col.c-cy{width:11%}col.c-sg{width:14%}
+col.c-x{width:30px}col.c-co{width:26%}col.c-fo{width:14%}col.c-ai{width:12%}col.c-st{width:15%}col.c-cy{width:10%}col.c-fi{width:8%}col.c-sg{width:13%}
 th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;overflow:hidden}
 th{background:#eef3f9;color:var(--navy);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;white-space:nowrap;position:sticky;top:0;z-index:2}
 th:hover{background:#e2ebf5}td{font-size:13px}
@@ -82,10 +82,10 @@ footer .vc{font-weight:700;color:var(--navy)}
   <span class="count" id="count"></span>
  </div>
  <table id="tbl">
-  <colgroup><col class="c-x"><col class="c-co"><col class="c-fo"><col class="c-ai"><col class="c-st"><col class="c-cy"><col class="c-sg"></colgroup>
+  <colgroup><col class="c-x"><col class="c-co"><col class="c-fo"><col class="c-ai"><col class="c-st"><col class="c-cy"><col class="c-fi"><col class="c-sg"></colgroup>
   <thead><tr>
    <th></th><th data-k="company">Company</th><th data-k="focus">Focus</th><th data-k="airole">AI Role</th>
-   <th data-k="status">Status</th><th data-k="country">Country</th><th data-k="stage">Funding</th>
+   <th data-k="status">Status</th><th data-k="country">Country</th><th data-k="first" title="Year first tracked">First yr</th><th data-k="stage">Funding</th>
   </tr></thead><tbody id="tb"></tbody>
  </table>
 </div>
@@ -134,7 +134,7 @@ function detail(d){
 function render(){let rows=DATA.slice();const q=document.getElementById("q").value.toLowerCase().trim();
  for(const id in FCOLS){const v=document.getElementById(id).value;if(v)rows=rows.filter(d=>d[FCOLS[id]]===v);}
  if(q)rows=rows.filter(d=>(d.company+" "+d.product+" "+d.investors+" "+d.milestone+" "+d.notes+" "+d.focus+" "+d.type).toLowerCase().includes(q));
- rows.sort((a,b)=>{const x=(a[sortK]||"").toString().toLowerCase(),y=(b[sortK]||"").toString().toLowerCase();return (x<y?-1:x>y?1:0)*(sortAsc?1:-1);});
+ rows.sort((a,b)=>{if(sortK==="first"||sortK==="last"){const xn=parseInt(((a[sortK]||"").match(/\d{4}/)||[0])[0])||0,yn=parseInt(((b[sortK]||"").match(/\d{4}/)||[0])[0])||0;return (xn-yn)*(sortAsc?1:-1);}const x=(a[sortK]||"").toString().toLowerCase(),y=(b[sortK]||"").toString().toLowerCase();return (x<y?-1:x>y?1:0)*(sortAsc?1:-1);});
  const tb=document.getElementById("tb");tb.innerHTML="";
  rows.forEach(d=>{const rc=ROLECLASS[d.airole]||"";const dot=STDOT[d.status]||"#8a94a6";
   const tr=document.createElement("tr");tr.className="r";
@@ -144,9 +144,10 @@ function render(){let rows=DATA.slice();const q=document.getElementById("q").val
    <td class="b" data-l="AI role"><span class="badge ${rc}">${esc(d.airole)}</span></td>
    <td class="st b" data-l="Status"><span class="dot" style="background:${dot}"></span>${esc(d.status)}</td>
    <td class="ell b" data-l="Country">${esc(d.country)}</td>
+   <td class="ell b" data-l="First yr">${esc(d.first)}</td>
    <td class="ell b" data-l="Funding">${esc(d.stage)}</td>`;
   const dr=document.createElement("tr");dr.className="det";dr.style.display="none";
-  const td=document.createElement("td");td.colSpan=7;td.innerHTML=detail(d);dr.appendChild(td);
+  const td=document.createElement("td");td.colSpan=8;td.innerHTML=detail(d);dr.appendChild(td);
   tr.addEventListener("click",e=>{if(e.target.closest("a"))return;const open=dr.style.display!=="none";
    dr.style.display=open?"none":"";tr.querySelector(".cx").textContent=open?"▸":"▾";});
   tb.appendChild(tr);tb.appendChild(dr);});
