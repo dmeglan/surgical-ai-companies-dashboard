@@ -24,9 +24,9 @@ h1{margin:0;font-size:23px;letter-spacing:.2px}
 .clentry:first-of-type{border-top:none}
 .clentry>summary{cursor:pointer;font-size:13px;list-style:none;padding:6px 2px}
 .clentry>summary::-webkit-details-marker{display:none}
-.clentry>summary::before{content:"▸";color:var(--mut);margin-right:8px;font-size:15px}
-.clentry[open]>summary::before{content:"▾"}
-.clbody{padding:2px 0 8px 20px}\n.clmore{border-top:1px solid var(--line)}\n.clmore>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--navy);list-style:none;padding:6px 2px}\n.clmore>summary::-webkit-details-marker{display:none}\n.clmore>summary::before{content:"▸";color:var(--mut);margin-right:8px;font-size:15px}\n.clmore[open]>summary::before{content:"▾"}
+.clentry>summary::before{content:"▶";color:var(--mut);margin-right:8px;font-size:13px}
+.clentry[open]>summary::before{content:"▼"}
+.clbody{padding:2px 0 8px 20px}\n.clmore{border-top:1px solid var(--line)}\n.clmore>summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--navy);list-style:none;padding:6px 2px}\n.clmore>summary::-webkit-details-marker{display:none}\n.clmore>summary::before{content:"▶";color:var(--mut);margin-right:8px;font-size:13px}\n.clmore[open]>summary::before{content:"▼"}
 .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:10px;margin-right:6px}
 .t-add{background:var(--firstbg);color:var(--first)}.t-rem{background:#fde8e8;color:#c0392b}.t-chg{background:var(--enabbg);color:var(--enab)}
 .controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:11px 14px}
@@ -40,7 +40,7 @@ th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);verti
 th{background:#eef3f9;color:var(--navy);font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;white-space:nowrap;position:sticky;top:0;z-index:2}
 th:hover{background:#e2ebf5}td{font-size:13px}
 tr.r{cursor:pointer}tr.r:hover td{background:#f3f7fc}
-td.cx{color:var(--mut);font-size:15px;text-align:center;padding-left:6px;padding-right:0}
+td.cx{color:var(--mut);font-size:13px;text-align:center;padding-left:6px;padding-right:0}
 td.co{font-weight:600}td.co .pp{display:block;color:var(--mut);font-weight:400;font-size:11.5px;margin-top:2px;white-space:normal}
 td.ell{white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
 .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:11px;white-space:nowrap}
@@ -65,7 +65,7 @@ footer .vc{font-weight:700;color:var(--navy)}
  tr.r{border:1px solid var(--line);border-radius:11px;margin:10px 0;padding:9px 38px 9px 11px;background:#fff;position:relative}
  tr.r:hover td{background:transparent}
  tr.r td{border:none;padding:2px 0;white-space:normal}
- td.cx{position:absolute;right:11px;top:11px;font-size:15px;padding:0}
+ td.cx{position:absolute;right:11px;top:11px;font-size:13px;padding:0}
  td.co{font-size:15.5px}
  td.ell::before,td.b::before{content:attr(data-l);display:inline-block;min-width:78px;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px;color:var(--mut);font-weight:700}
  tr.det{margin:-8px 0 10px}tr.det>td{border:1px solid var(--line);border-top:none;border-radius:0 0 11px 11px}
@@ -155,7 +155,7 @@ function render(){let rows=DATA.slice();const q=document.getElementById("q").val
  const tb=document.getElementById("tb");tb.innerHTML="";
  rows.forEach(d=>{const rc=ROLECLASS[d.airole]||"";const dot=STDOT[d.status]||"#8a94a6";
   const tr=document.createElement("tr");tr.className="r";
-  tr.innerHTML=`<td class="cx">▸</td>
+  tr.innerHTML=`<td class="cx">▶</td>
    <td class="co" data-l="Company">${esc(d.company)}<span class="pp">${esc(d.product)}</span></td>
    <td class="ell b" data-l="Focus">${esc(d.focus)}</td>
    <td class="b" data-l="AI role"><span class="badge ${rc}">${esc(d.airole)}</span></td>
@@ -166,7 +166,7 @@ function render(){let rows=DATA.slice();const q=document.getElementById("q").val
   const dr=document.createElement("tr");dr.className="det";dr.style.display="none";
   const td=document.createElement("td");td.colSpan=8;td.innerHTML=detail(d);dr.appendChild(td);
   tr.addEventListener("click",e=>{if(e.target.closest("a"))return;const open=dr.style.display!=="none";
-   dr.style.display=open?"none":"";tr.querySelector(".cx").textContent=open?"▸":"▾";});
+   dr.style.display=open?"none":"";tr.querySelector(".cx").textContent=open?"▶":"▼";});
   tb.appendChild(tr);tb.appendChild(dr);});
  document.getElementById("count").textContent=rows.length+" of "+DATA.length;}
 document.getElementById("q").addEventListener("input",render);
